@@ -33,4 +33,11 @@ public class FlightRepository {
         session.close();
         return flights;
     }
+
+    public Long getMaxFlightId() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Long maxId = session.createQuery("select max(id) from Flight", Long.class).getSingleResultOrNull();
+        session.close();
+        return maxId;
+    }
 }

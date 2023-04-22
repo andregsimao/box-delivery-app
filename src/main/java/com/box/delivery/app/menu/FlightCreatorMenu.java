@@ -24,10 +24,11 @@ public class FlightCreatorMenu extends Menu{
 
     public void run() {
         int numberOfDays = getPositiveIntUserInput(scanner, "number of days");
-        int flightId = 1;
         for(int day = 1; day <= numberOfDays; day++) {
+            long maxId = flightCreator.maxFlightId();
+            long flightId = maxId + 1;
             int numberOfFlights = getPositiveIntUserInput(scanner, "number of flights in day " + day);
-            for(; flightId <= numberOfFlights; flightId++) {
+            for(; flightId <= numberOfFlights + maxId; flightId++) {
                 String departureParameterName = "Day "+ day + ", flight " + flightId + ". Departure Airport Code";
                 Airport departure = getAirportInput(departureParameterName);
 

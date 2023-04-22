@@ -22,7 +22,7 @@ public class FlightCreator {
         return instance;
     }
 
-    public Flight persistFlight(int day, int flightId, Airport departure, Airport arrival) {
+    public Flight persistFlight(int day, long flightId, Airport departure, Airport arrival) {
         airportRepository.merge(departure);
         airportRepository.merge(arrival);
         Flight flight = new Flight(flightId, day, departure, arrival);
@@ -40,5 +40,14 @@ public class FlightCreator {
             }
         }
         return false;
+    }
+
+    public long maxFlightId() {
+        Long maxId = flightRepository.getMaxFlightId();
+        if(maxId != null) {
+            return maxId;
+        } else {
+            return 0;
+        }
     }
 }

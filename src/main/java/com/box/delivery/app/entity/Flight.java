@@ -9,7 +9,7 @@ public class Flight {
 
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "flight_day")
     private int flightDay;
@@ -24,14 +24,14 @@ public class Flight {
 
     public Flight() {}
 
-    public Flight(int id, int flightDay, Airport departureAirport, Airport arrivalAirport) {
+    public Flight(long id, int flightDay, Airport departureAirport, Airport arrivalAirport) {
         this.id = id;
         this.flightDay = flightDay;
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
