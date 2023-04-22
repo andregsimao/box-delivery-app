@@ -1,6 +1,5 @@
 package com.box.delivery.app.config;
 
-import com.box.delivery.app.Application;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -41,7 +40,11 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
-    public static void shutdown() {
+    public static void init() {
+        getSessionFactory();
+    }
+
+    public static void destroy() {
         if (registry != null) {
             StandardServiceRegistryBuilder.destroy(registry);
         }
