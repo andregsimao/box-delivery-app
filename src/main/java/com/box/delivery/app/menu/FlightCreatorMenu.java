@@ -3,18 +3,21 @@ package com.box.delivery.app.menu;
 import com.box.delivery.app.Repository.FlightRepository;
 import com.box.delivery.app.entity.Airport;
 import com.box.delivery.app.entity.Flight;
+import java.util.Scanner;
 
-public class FlightCreatorMenu {
+public class FlightCreatorMenu extends Menu{
     private static FlightCreatorMenu instance;
     private final FlightRepository flightRepository;
+    private final Scanner scanner;
 
-    private FlightCreatorMenu () {
+    private FlightCreatorMenu (Scanner scanner) {
          this.flightRepository = FlightRepository.getInstance();
+         this.scanner = scanner;
     }
 
-    public static FlightCreatorMenu getInstance() {
+    public static FlightCreatorMenu getInstance(Scanner scanner) {
         if (instance == null) {
-            instance = new FlightCreatorMenu();
+            instance = new FlightCreatorMenu(scanner);
         }
         return instance;
     }

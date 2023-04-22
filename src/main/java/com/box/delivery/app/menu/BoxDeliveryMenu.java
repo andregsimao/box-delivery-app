@@ -7,7 +7,7 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BoxDeliveryMenu {
+public class BoxDeliveryMenu extends Menu{
     private static final Logger logger = LoggerFactory.getLogger(BoxDeliveryMenu.class);
     private final Scanner scanner;
     private final FlightEnquirer flightEnquirer;
@@ -16,7 +16,7 @@ public class BoxDeliveryMenu {
     public BoxDeliveryMenu() {
         this.scanner = new Scanner(System.in);
         this.flightEnquirer = FlightEnquirer.getInstance();
-        this.flightCreatorMenu = FlightCreatorMenu.getInstance();
+        this.flightCreatorMenu = FlightCreatorMenu.getInstance(scanner);
     }
 
     public void run() {
@@ -33,6 +33,7 @@ public class BoxDeliveryMenu {
                 case GENERATE_ITINERARIES:
                     break;
             }
+            showMainMenu();
             commandOption = getChosenOption();
         }
 
@@ -44,29 +45,25 @@ public class BoxDeliveryMenu {
     }
 
     private void showMainMenu() {
-        Printer.printMessage("Option between 0 and 3");
+        Printer.printBlankLine();
+        Printer.printSeparationLines(1);
+        Printer.printBlankLine();
+
+        Printer.printLine("Choose one of the following options:");
+        Printer.printBlankLine();
+        for(CommandOption commandOption: CommandOption.values()) {
+            Printer.printLine(commandOption.value + ": " + commandOption.description);
+        }
     }
 
     private CommandOption getChosenOption() {
-        while(scanner.hasNext()){
-            if(scanner.hasNextInt(10)){
-                int optionValue = scanner.nextInt();
-                Optional<CommandOption> commandOption = CommandOption.getOptionByValue(optionValue);
-                if(commandOption.isPresent()) {
-                    return commandOption.get();
-                } else {
-                    Printer.printMessage("Invalid option " + optionValue + ". Choose between the options in the menu");
-                }
-            } else{
-                Printer.printMessage("The option needs to be an Integer number");
-                scanner.next();
-            }
-            skipSpecialChars();
+        int optionValue = getIntUserInput(scanner);
+        Optional<CommandOption> commandOption = CommandOption.getOptionByValue(optionValue);
+        while(!commandOption.isPresent()) {
+            Printer.printLine("Invalid option " + optionValue + ". Choose between the options in the menu");
+            optionValue = getIntUserInput(scanner);
+            commandOption = CommandOption.getOptionByValue(optionValue);
         }
-        return CommandOption.EXIT;
-    }
-
-    private void skipSpecialChars() {
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        return commandOption.get();
     }
 }
