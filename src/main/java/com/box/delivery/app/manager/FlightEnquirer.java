@@ -1,6 +1,6 @@
 package com.box.delivery.app.manager;
 
-import com.box.delivery.app.Repository.FlightRepository;
+import com.box.delivery.app.repository.FlightRepository;
 import com.box.delivery.app.entity.Flight;
 import com.box.delivery.app.menu.Printer;
 import java.util.List;

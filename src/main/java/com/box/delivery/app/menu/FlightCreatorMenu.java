@@ -1,6 +1,7 @@
 package com.box.delivery.app.menu;
 
 import com.box.delivery.app.entity.Airport;
+import com.box.delivery.app.entity.Flight;
 import com.box.delivery.app.manager.FlightCreator;
 import java.util.Scanner;
 
@@ -23,14 +24,33 @@ public class FlightCreatorMenu extends Menu{
 
     public void run() {
         int numberOfDays = getPositiveIntUserInput(scanner, "number of days");
-
+        int flightId = 1;
         for(int day = 1; day <= numberOfDays; day++) {
             int numberOfFlights = getPositiveIntUserInput(scanner, "number of flights in day " + day);
-            for(int flight = 1; flight <= numberOfFlights; flight++) {
-                Airport departure = new Airport("YYC", "Calgary");
-                Airport arrival = new Airport("GIG", "Galeao");
-                flightCreator.persistFlight(day, flight, departure, arrival);
+            for(; flightId <= numberOfFlights; flightId++) {
+                String departureParameterName = "Day "+ day + ", flight " + flightId + ". Departure Airport Code";
+                Airport departure = getAirportInput(departureParameterName);
+
+                String arrivalParameterName = "Day "+ day + ", flight " + flightId + ". Arrival Airport Code";
+                Airport arrival = getAirportInput(arrivalParameterName);
+
+                Flight flight = flightCreator.persistFlight(day, flightId, departure, arrival);
+
+                Printer.printLine("Success adding flight: " + flight);
             }
         }
+    }
+
+    private Airport getAirportInput(String parameterName) {
+        String airportCode;
+        do {
+            airportCode = getUserInput(scanner, parameterName);
+
+            if(flightCreator.isInvalidAirportCode(airportCode)) {
+                Printer.printLine("Invalid Airport Code " + airportCode + ". It needs to have exactly 3 letters");
+            }
+        } while(flightCreator.isInvalidAirportCode(airportCode));
+
+        return new Airport(airportCode.toUpperCase());
     }
 }

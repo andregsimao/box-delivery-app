@@ -1,12 +1,13 @@
 package com.box.delivery.app.menu;
 
 import java.util.Scanner;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Menu {
 
     public abstract void run();
 
-    int getIntUserInput(Scanner scanner, String parameterName) {
+    protected int getIntUserInput(Scanner scanner, String parameterName) {
         Printer.printBlankLine();
         Printer.printObject(parameterName + ": ");
         while(scanner.hasNext()){
@@ -23,7 +24,7 @@ public abstract class Menu {
         return -1;
     }
 
-    int getPositiveIntUserInput(Scanner scanner, String parameterName) {
+    protected int getPositiveIntUserInput(Scanner scanner, String parameterName) {
         int intUserInput;
 
         do {
@@ -36,7 +37,13 @@ public abstract class Menu {
         return intUserInput;
     }
 
-    private void skipSpecialChars(Scanner scanner) {
+    protected String getUserInput(Scanner scanner, String parameterName) {
+        Printer.printBlankLine();
+        Printer.printObject(parameterName + ": ");
+        return scanner.next();
+    }
+
+    private void skipSpecialChars(@NotNull Scanner scanner) {
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
     }
 }
