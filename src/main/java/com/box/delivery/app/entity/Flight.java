@@ -1,5 +1,6 @@
 package com.box.delivery.app.entity;
 
+
 import jakarta.persistence.*;
 
 @Entity
@@ -13,11 +14,11 @@ public class Flight {
     @Column(name = "flight_day")
     private int flightDay;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade= {CascadeType.ALL,CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "departure", referencedColumnName = "code")
     private Airport departureAirport;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade= {CascadeType.ALL,CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "arrival", referencedColumnName = "code")
     private Airport arrivalAirport;
 

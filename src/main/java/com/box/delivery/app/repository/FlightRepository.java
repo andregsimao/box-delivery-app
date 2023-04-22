@@ -1,16 +1,12 @@
-package com.box.delivery.app.Repository;
+package com.box.delivery.app.repository;
 
 import com.box.delivery.app.config.HibernateUtil;
 import com.box.delivery.app.entity.Flight;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FlightRepository {
-
-    private static final Logger logger = LoggerFactory.getLogger(FlightRepository.class);
 
     private static FlightRepository instance;
 
@@ -23,13 +19,12 @@ public class FlightRepository {
         return instance;
     }
 
-    public void persistFlight(Flight flight) {
+    public void persist(Flight flight) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.persist(flight);
         transaction.commit();
         session.close();
-        logger.info("flight " + flight + " persisted database");
     }
 
     public List<Flight> getFlights() {

@@ -9,14 +9,10 @@ public class Airport {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "name")
-    private String name;
-
     public Airport() {}
 
-    public Airport(String code, String name) {
+    public Airport(String code) {
         this.code = code;
-        this.name = name;
     }
 
     public String getCode() {
@@ -25,6 +21,6 @@ public class Airport {
 
     @Override
     public String toString() {
-        return "Airport(code = \"" + code + "\", name = \"" + name + "\")";
+        return "Airport(code = \"" + code + "\")";
     }
 }
