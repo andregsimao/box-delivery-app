@@ -57,13 +57,18 @@ public class BoxDeliveryMenu extends Menu{
     }
 
     private CommandOption getChosenOption() {
-        int optionValue = getIntUserInput(scanner);
-        Optional<CommandOption> commandOption = CommandOption.getOptionByValue(optionValue);
-        while(!commandOption.isPresent()) {
-            Printer.printLine("Invalid option " + optionValue + ". Choose between the options in the menu");
-            optionValue = getIntUserInput(scanner);
-            commandOption = CommandOption.getOptionByValue(optionValue);
-        }
+        Optional<CommandOption> commandOption;
+        int optionNumber;
+
+        do {
+            optionNumber = getIntUserInput(scanner, "option");
+            commandOption = CommandOption.getOptionByValue(optionNumber);
+
+            if(!commandOption.isPresent()) {
+                Printer.printLine("Invalid option " + optionNumber + ". Choose among the options in the menu");
+            }
+        } while(!commandOption.isPresent());
+
         return commandOption.get();
     }
 }
