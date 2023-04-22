@@ -24,21 +24,18 @@ public class FlightEnquirer {
         Printer.printBlankLine();
         Printer.printSeparationLines(2);
 
-        Printer.printMessage("Flight Schedule:");
+        Printer.printLine("Flight Schedule:");
         Printer.printBlankLine();
 
         printFlights();
-
-        Printer.printSeparationLines(2);
-        Printer.printBlankLine();
     }
 
     private void printFlights() {
         List<Flight> flights = flightRepository.getFlights();
         if(flights.isEmpty()) {
-            Printer.printMessage("No flights scheduled");
+            Printer.printLine("No flights scheduled");
         } else {
-            flights.forEach(Printer::printMessage);
+            flights.forEach(Printer::printLine);
         }
     }
 }
