@@ -44,10 +44,10 @@ Flight 6: Montreal (YUL) to Vancouver (YVR)
 
 ## run application
 
-The application can be driven from the main method in the file Main.Java (package com.box.delivery.app)   
+The application can be driven from the main method in the file Application.Java (package com.box.delivery.app)   
 
 ```bash
-java src/main/java/com/box/delivery/app/Main.java
+java src/main/java/com/box/delivery/app/Application.java
 ```
 
 ## build the project and package jar file into the target directory with maven 
