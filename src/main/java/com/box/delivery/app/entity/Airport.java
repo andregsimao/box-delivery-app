@@ -23,7 +23,8 @@ public class Airport {
         return code;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String toString() {
+        return "Airport(code = \"" + code + "\", name = \"" + name + "\")";
     }
 }

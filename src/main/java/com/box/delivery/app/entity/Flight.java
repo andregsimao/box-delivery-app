@@ -13,11 +13,11 @@ public class Flight {
     @Column(name = "flight_day")
     private int flightDay;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade= {CascadeType.ALL,CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade= {CascadeType.ALL,CascadeType.PERSIST})
     @JoinColumn(name = "departure", referencedColumnName = "code")
     private Airport departureAirport;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade= {CascadeType.ALL,CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade= {CascadeType.ALL,CascadeType.PERSIST})
     @JoinColumn(name = "arrival", referencedColumnName = "code")
     private Airport arrivalAirport;
 
@@ -44,5 +44,14 @@ public class Flight {
 
     public Airport getArrivalAirport() {
         return arrivalAirport;
+    }
+
+    @Override
+    public String toString() {
+        return "Flight(id = " + id +
+            ", flightDay = " + flightDay +
+            ", departure = " + departureAirport +
+            ", arrival = " + arrivalAirport +
+            ")";
     }
 }
