@@ -1,21 +1,22 @@
 package com.box.delivery.app.menu;
 
-import com.box.delivery.app.Repository.FlightRepository;
 import com.box.delivery.app.config.HibernateUtil;
-import com.box.delivery.app.entity.Airport;
-import com.box.delivery.app.entity.Flight;
-import java.util.List;
+import com.box.delivery.app.manager.FlightEnquirer;
 import java.util.Optional;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BoxDeliveryMenu {
-    Scanner scanner;
     private static final Logger logger = LoggerFactory.getLogger(BoxDeliveryMenu.class);
+    private final Scanner scanner;
+    private final FlightEnquirer flightEnquirer;
+    private final FlightCreatorMenu flightCreatorMenu;
 
     public BoxDeliveryMenu() {
         this.scanner = new Scanner(System.in);
+        this.flightEnquirer = FlightEnquirer.getInstance();
+        this.flightCreatorMenu = FlightCreatorMenu.getInstance();
     }
 
     public void run() {
@@ -23,11 +24,11 @@ public class BoxDeliveryMenu {
         CommandOption commandOption = getChosenOption();
         while (commandOption != CommandOption.EXIT) {
             switch (commandOption) {
-                case EXIT:
-                    return;
                 case INSERT_FLIGHTS:
+                    flightCreatorMenu.run();
                     break;
                 case CHECK_FLIGHTS:
+                    flightEnquirer.printAllFlights();
                     break;
                 case GENERATE_ITINERARIES:
                     break;
@@ -35,20 +36,7 @@ public class BoxDeliveryMenu {
             commandOption = getChosenOption();
         }
 
-        FlightRepository flightRepository = FlightRepository.getInstance();
-        Airport departure = new Airport("YYC", "Calgary");
-        Airport arrival = new Airport("GIG", "Galeao");
-        Flight flight = new Flight(1, 2, departure, arrival);
-        try {
-            flightRepository.persistFlight(flight);
-        } catch (Exception exception) {
-            // TODO
-        }
-
-        List<Flight> flights = flightRepository.getFlights();
-        flights.forEach(System.out::println);
-
-        HibernateUtil.shutdown();
+        HibernateUtil.destroy();
         logger.info("hibernate registry destroyed");
 
         scanner.close();
@@ -56,7 +44,7 @@ public class BoxDeliveryMenu {
     }
 
     private void showMainMenu() {
-        printMessage("Option between 0 and 3");
+        Printer.printMessage("Option between 0 and 3");
     }
 
     private CommandOption getChosenOption() {
@@ -67,19 +55,15 @@ public class BoxDeliveryMenu {
                 if(commandOption.isPresent()) {
                     return commandOption.get();
                 } else {
-                    printMessage("Invalid option " + optionValue + ". Choose between the options in the menu");
+                    Printer.printMessage("Invalid option " + optionValue + ". Choose between the options in the menu");
                 }
             } else{
-                printMessage("The option needs to be an Integer number");
+                Printer.printMessage("The option needs to be an Integer number");
                 scanner.next();
             }
             skipSpecialChars();
         }
         return CommandOption.EXIT;
-    }
-
-    private void printMessage(String message) {
-        System.out.println(message);
     }
 
     private void skipSpecialChars() {
