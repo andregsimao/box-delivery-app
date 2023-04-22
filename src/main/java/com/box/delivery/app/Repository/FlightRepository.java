@@ -12,6 +12,17 @@ public class FlightRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FlightRepository.class);
 
+    private static FlightRepository instance;
+
+    private FlightRepository() {}
+
+    public static FlightRepository getInstance() {
+        if (instance == null) {
+            instance = new FlightRepository();
+        }
+        return instance;
+    }
+
     public void persistFlight(Flight flight) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
