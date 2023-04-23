@@ -31,7 +31,7 @@ public class FlightCreator {
     }
 
     public boolean isInvalidAirportCode(String airportCode) {
-        if(airportCode == null || airportCode.length() != 3) {
+        if(airportCode == null || airportCode.isEmpty()) {
             return true;
         }
         for (int i = 0; i < airportCode.length(); i++) {
@@ -44,10 +44,6 @@ public class FlightCreator {
 
     public long maxFlightId() {
         Long maxId = flightRepository.getMaxFlightId();
-        if(maxId != null) {
-            return maxId;
-        } else {
-            return 0;
-        }
+        return maxId != null ? maxId : 0;
     }
 }
