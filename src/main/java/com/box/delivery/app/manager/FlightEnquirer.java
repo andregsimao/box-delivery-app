@@ -35,7 +35,12 @@ public class FlightEnquirer {
         if(flights.isEmpty()) {
             Printer.printLine("No flights scheduled");
         } else {
-            flights.forEach(Printer::printLine);
+            flights.forEach(flight -> Printer.printLine(
+                "Flight: " + flight.getId() +
+                ", departure: " + flight.getDepartureAirport().getCode() +
+                ", arrival: " + flight.getArrivalAirport().getCode() +
+                ", day: " + flight.getFlightDay()
+            ));
         }
     }
 }
