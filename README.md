@@ -3,8 +3,6 @@ The aim of this app is creating a console application that receives orders and a
 and generate flight itineraries as output to deliver all orders in the flights scheduled.
 <hr>
 
-* [JDK 20](https://www.oracle.com/java/technologies/javase/jdk20-archive-downloads.html)
-
 ## Example  
 
 ### Loading a flight schedule:
