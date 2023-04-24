@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 public class HibernateUtil {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
-
     private static final Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
 
     public static SessionFactory getSessionFactory() {

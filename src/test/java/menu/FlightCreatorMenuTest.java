@@ -4,6 +4,7 @@ import com.box.delivery.app.manager.FlightCreator;
 import com.box.delivery.app.menu.FlightCreatorMenu;
 import java.io.*;
 import java.util.Scanner;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -77,6 +78,24 @@ public class FlightCreatorMenuTest {
             .persistFlight(2, 2, "YYT", "GRU");
         verify(flightCreator, times(1))
             .persistFlight(2, 3, "YYC", "YVT");
+    }
+
+    @Test
+    public void Should_AskInputAgain_When_InputIsNotValid() throws IOException {
+        String input = "1 1 YYC 2 GIG ";
+        setInputScanner(input);
+
+        when(flightCreator.maxFlightId()).thenReturn(0L);
+        when(flightCreator.isInvalidAirportCode("2")).thenReturn(true);
+        flightCreatorMenu.run();
+
+        String allWrittenLines = getWrittenLines();
+
+        verify(flightCreator, times(1))
+            .persistFlight(1, 1L, "YYC", "GIG");
+
+        String arrivalAirportInputPrompt = "Day 1, flight 1. Arrival Airport Code:";
+        assertEquals(2, StringUtils.countMatches(allWrittenLines, arrivalAirportInputPrompt));
     }
 
     private void setInputScanner(String input) {
