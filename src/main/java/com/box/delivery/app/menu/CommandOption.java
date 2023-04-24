@@ -1,6 +1,5 @@
 package com.box.delivery.app.menu;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 public enum CommandOption {
@@ -17,12 +16,16 @@ public enum CommandOption {
         this.description = description;
     }
 
-    static Optional<CommandOption> getOptionByValue(int optionValue) {
+    public static Optional<CommandOption> getOptionByValue(int optionValue) {
         for(CommandOption commandOption: CommandOption.values()) {
             if(commandOption.value == optionValue) {
                 return Optional.of(commandOption);
             }
         }
         return Optional.empty();
+    }
+
+    public int getValue() {
+        return value;
     }
 }
