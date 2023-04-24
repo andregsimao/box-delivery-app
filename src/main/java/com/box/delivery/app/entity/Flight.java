@@ -1,5 +1,6 @@
 package com.box.delivery.app.entity;
 
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,29 +9,29 @@ public class Flight {
 
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "flight_day")
     private int flightDay;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade= {CascadeType.ALL,CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "departure", referencedColumnName = "code")
     private Airport departureAirport;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade= {CascadeType.ALL,CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "arrival", referencedColumnName = "code")
     private Airport arrivalAirport;
 
     public Flight() {}
 
-    public Flight(int id, int flightDay, Airport departureAirport, Airport arrivalAirport) {
+    public Flight(long id, int flightDay, Airport departureAirport, Airport arrivalAirport) {
         this.id = id;
         this.flightDay = flightDay;
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -44,5 +45,14 @@ public class Flight {
 
     public Airport getArrivalAirport() {
         return arrivalAirport;
+    }
+
+    @Override
+    public String toString() {
+        return "Flight(id = " + id +
+            ", flightDay = " + flightDay +
+            ", departure = " + departureAirport +
+            ", arrival = " + arrivalAirport +
+            ")";
     }
 }
