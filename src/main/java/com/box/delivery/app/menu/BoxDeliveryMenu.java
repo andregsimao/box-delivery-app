@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BoxDeliveryMenu extends Menu{
     private static final Logger logger = LoggerFactory.getLogger(BoxDeliveryMenu.class);
@@ -31,6 +32,7 @@ public class BoxDeliveryMenu extends Menu{
                     flightEnquirer.printAllFlights();
                     break;
                 case GENERATE_ITINERARIES:
+                    Printer.printLine("This feature is not implemented yet");
                     break;
             }
             showMainMenu();
