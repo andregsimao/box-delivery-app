@@ -49,7 +49,7 @@ public class BoxDeliveryMenu extends Menu{
         Printer.printSeparationLines(1);
         Printer.printBlankLine();
 
-        Printer.printLine("Choose one of the following options:");
+        Printer.printLine("Choose and type the option number one of the following options:");
         Printer.printBlankLine();
         for(CommandOption commandOption: CommandOption.values()) {
             Printer.printLine(commandOption.value + ": " + commandOption.description);
@@ -65,7 +65,7 @@ public class BoxDeliveryMenu extends Menu{
             commandOption = CommandOption.getOptionByValue(optionNumber);
 
             if(!commandOption.isPresent()) {
-                Printer.printLine("Invalid option " + optionNumber + ". Choose among the options in the menu");
+                Printer.printLine("Invalid option '" + optionNumber + "'. Choose among the options in the menu");
             }
         } while(!commandOption.isPresent());
 

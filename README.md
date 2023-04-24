@@ -11,7 +11,7 @@ and generate flight itineraries as output to deliver all orders in the flights s
 ```
 -----------------------------------------------------------------
 
-Choose one of the following options:
+Choose and type the option number one of the following options:
 
 0: Finish the program
 1: Insert flight schedule

@@ -28,4 +28,8 @@ public enum CommandOption {
     public int getValue() {
         return value;
     }
+
+    public String getDescription() {
+        return description;
+    }
 }

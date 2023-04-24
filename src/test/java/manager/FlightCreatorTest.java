@@ -27,12 +27,12 @@ public class FlightCreatorTest {
         flightRepository = mock(FlightRepository.class);
         airportRepository = mock(AirportRepository.class);
 
-        try (MockedStatic<FlightRepository> mockedStaticFlightRepository = Mockito.mockStatic(FlightRepository.class)) {
-            try (MockedStatic<AirportRepository> mockedStaticAirportRepository = Mockito.mockStatic(AirportRepository.class)) {
-                mockedStaticAirportRepository
-                        .when(AirportRepository::getInstance).thenReturn(airportRepository);
-                mockedStaticFlightRepository
-                        .when(FlightRepository::getInstance).thenReturn(flightRepository);
+        try (MockedStatic<FlightRepository> mockedFlightRepository = Mockito.mockStatic(FlightRepository.class)) {
+            try (MockedStatic<AirportRepository> mockedAirportRepository = Mockito.mockStatic(AirportRepository.class)) {
+                mockedAirportRepository
+                    .when(AirportRepository::getInstance).thenReturn(airportRepository);
+                mockedFlightRepository
+                    .when(FlightRepository::getInstance).thenReturn(flightRepository);
 
                 flightCreator = FlightCreator.getInstance();
             }
