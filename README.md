@@ -123,7 +123,7 @@ mvn clean package
 ## run jar file created with maven
 
 ```bash
-java -jar target/delivery-box-app-1.0.0-SNAPSHOT.jar
+java -jar target/delivery-box-app-1.0.0.jar
 ```
 
 ## run tests
