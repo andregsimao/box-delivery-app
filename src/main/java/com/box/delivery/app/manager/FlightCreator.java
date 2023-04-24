@@ -22,10 +22,14 @@ public class FlightCreator {
         return instance;
     }
 
-    public Flight persistFlight(int day, long flightId, Airport departure, Airport arrival) {
-        airportRepository.merge(departure);
-        airportRepository.merge(arrival);
-        Flight flight = new Flight(flightId, day, departure, arrival);
+    public Flight persistFlight(int day, long flightId, String departureCode, String arrivalCode) {
+        Airport departureAirport = new Airport(departureCode);
+        airportRepository.merge(departureAirport);
+
+        Airport arrivalAirport = new Airport(arrivalCode);
+        airportRepository.merge(arrivalAirport);
+
+        Flight flight = new Flight(flightId, day, departureAirport, arrivalAirport);
         flightRepository.persist(flight);
         return flight;
     }

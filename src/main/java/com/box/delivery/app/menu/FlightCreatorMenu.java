@@ -1,6 +1,5 @@
 package com.box.delivery.app.menu;
 
-import com.box.delivery.app.entity.Airport;
 import com.box.delivery.app.entity.Flight;
 import com.box.delivery.app.manager.FlightCreator;
 import java.util.Scanner;
@@ -30,19 +29,19 @@ public class FlightCreatorMenu extends Menu{
             int numberOfFlights = getPositiveIntUserInput(scanner, "number of flights in day " + day);
             for(; flightId <= numberOfFlights + maxId; flightId++) {
                 String departureParameterName = "Day "+ day + ", flight " + flightId + ". Departure Airport Code";
-                Airport departure = getAirportInput(departureParameterName);
+                String departureCode = getAirportCodeInput(departureParameterName);
 
                 String arrivalParameterName = "Day "+ day + ", flight " + flightId + ". Arrival Airport Code";
-                Airport arrival = getAirportInput(arrivalParameterName);
+                String arrivalCode = getAirportCodeInput(arrivalParameterName);
 
-                Flight flight = flightCreator.persistFlight(day, flightId, departure, arrival);
+                Flight flight = flightCreator.persistFlight(day, flightId, departureCode, arrivalCode);
 
                 Printer.printLine("Success adding flight: " + flight);
             }
         }
     }
 
-    private Airport getAirportInput(String parameterName) {
+    private String getAirportCodeInput(String parameterName) {
         String airportCode;
         do {
             airportCode = getUserInput(scanner, parameterName);
@@ -52,6 +51,6 @@ public class FlightCreatorMenu extends Menu{
             }
         } while(flightCreator.isInvalidAirportCode(airportCode));
 
-        return new Airport(airportCode.toUpperCase());
+        return airportCode.toUpperCase();
     }
 }

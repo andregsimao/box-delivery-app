@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.ArgumentCaptor;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -49,18 +50,24 @@ public class FlightCreatorTest {
     public void Should_PersistAirportsAndFlights_When_AddingNewFlight() {
         int day = 1;
         int flightId = 2;
-        Airport departure = new Airport("YYL");
-        Airport arrival = new Airport("GIG");
+        String departureCode = "YYL";
+        String arrivalCode = "GIG";
 
-        Flight flight = flightCreator.persistFlight(day, flightId, departure, arrival);
+        Flight flight = flightCreator.persistFlight(day, flightId, departureCode, arrivalCode);
 
         assertEquals(flightId, flight.getId());
         assertEquals(day, flight.getFlightDay());
-        assertEquals(departure, flight.getDepartureAirport());
-        assertEquals(arrival, flight.getArrivalAirport());
+        assertEquals(departureCode, flight.getDepartureAirport().getCode());
+        assertEquals(arrivalCode, flight.getArrivalAirport().getCode());
 
-        verify(airportRepository, times(1)).merge(departure);
-        verify(airportRepository, times(1)).merge(arrival);
+        ArgumentCaptor<Airport> mergedAirports = ArgumentCaptor.forClass(Airport.class);
+        verify(airportRepository, times(2))
+            .merge(mergedAirports.capture());
+
+        assertEquals(2, mergedAirports.getAllValues().size());
+        assertEquals(departureCode, mergedAirports.getAllValues().get(0).getCode());
+        assertEquals(arrivalCode, mergedAirports.getAllValues().get(1).getCode());
+
         verify(flightRepository, times(1)).persist(flight);
     }
 
