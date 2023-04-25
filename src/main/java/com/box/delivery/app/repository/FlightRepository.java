@@ -19,10 +19,10 @@ public class FlightRepository {
         return instance;
     }
 
-    public void persist(Flight flight) {
+    public void merge(Flight flight) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.persist(flight);
+        session.merge(flight);
         transaction.commit();
         session.close();
     }
@@ -30,6 +30,13 @@ public class FlightRepository {
     public List<Flight> getFlights() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<Flight> flights = session.createQuery("from Flight", Flight.class).list();
+        session.close();
+        return flights;
+    }
+
+    public List<Flight> getFlightsOrdered() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<Flight> flights = session.createQuery("from Flight order by flightDay, id", Flight.class).list();
         session.close();
         return flights;
     }

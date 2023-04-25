@@ -2,22 +2,25 @@ package com.box.delivery.app.menu;
 
 import com.box.delivery.app.config.HibernateUtil;
 import com.box.delivery.app.manager.FlightEnquirer;
+import com.box.delivery.app.manager.ItineraryGenerator;
 import java.util.Optional;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BoxDeliveryMenu extends Menu{
     private static final Logger logger = LoggerFactory.getLogger(BoxDeliveryMenu.class);
     private final Scanner scanner;
     private final FlightEnquirer flightEnquirer;
     private final FlightCreatorMenu flightCreatorMenu;
+    private final ItineraryGenerator itineraryGenerator;
+    private static final String ORDERS_FILE_NAME = "src/main/resources/coding-assigment-orders.json";
 
     public BoxDeliveryMenu() {
         this.scanner = new Scanner(System.in);
         this.flightEnquirer = FlightEnquirer.getInstance();
         this.flightCreatorMenu = FlightCreatorMenu.getInstance(scanner);
+        this.itineraryGenerator = ItineraryGenerator.getInstance();
     }
 
     public void run() {
@@ -32,7 +35,7 @@ public class BoxDeliveryMenu extends Menu{
                     flightEnquirer.printAllFlights();
                     break;
                 case GENERATE_ITINERARIES:
-                    Printer.printLine("This feature is not implemented yet");
+                    itineraryGenerator.generateItinerary(ORDERS_FILE_NAME);
                     break;
             }
             showMainMenu();

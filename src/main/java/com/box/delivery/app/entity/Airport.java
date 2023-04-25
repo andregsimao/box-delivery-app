@@ -1,5 +1,6 @@
 package com.box.delivery.app.entity;
 
+import java.util.Set;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,6 +9,12 @@ public class Airport {
     @Id
     @Column(name = "code")
     private String code;
+
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "departureAirport")
+    private Set<Flight> departureFlights;
+
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "arrivalAirport")
+    private Set<Flight> arrivalFlights;
 
     public Airport() {}
 
