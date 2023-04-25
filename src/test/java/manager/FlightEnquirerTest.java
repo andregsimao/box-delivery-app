@@ -1,7 +1,10 @@
 package manager;
 
+import com.box.delivery.app.entity.Airplane;
+import com.box.delivery.app.entity.AirplaneType;
 import com.box.delivery.app.entity.Airport;
 import com.box.delivery.app.entity.Flight;
+import com.box.delivery.app.enums.AirplaneTypeEnum;
 import com.box.delivery.app.manager.FlightEnquirer;
 import com.box.delivery.app.repository.FlightRepository;
 import java.io.ByteArrayOutputStream;
@@ -49,12 +52,16 @@ public class FlightEnquirerTest {
         int flightId1 = 10, flightDay1 = 23;
         Airport departureAirport1 = new Airport("YUL");
         Airport arrivalAirport1 = new Airport("GIG");
-        flights.add(new Flight(flightId1, flightDay1, departureAirport1, arrivalAirport1));
+
+        AirplaneType airplaneType = new AirplaneType(AirplaneTypeEnum.GENERIC.getId(), 20);
+        Airplane airplane = new Airplane(airplaneType);
+
+        flights.add(new Flight(flightId1, flightDay1, departureAirport1, arrivalAirport1, airplane));
 
         int flightId2 = 11, flightDay2 = 33;
         Airport departureAirport2 = new Airport("YYC");
         Airport arrivalAirport2 = new Airport("GRU");
-        flights.add(new Flight(flightId2, flightDay2, departureAirport2, arrivalAirport2));
+        flights.add(new Flight(flightId2, flightDay2, departureAirport2, arrivalAirport2, airplane));
 
         String expectedFlight1Description = "Flight: 10, departure: YUL, arrival: GIG, day: 23";
         String expectedFlight2Description = "Flight: 11, departure: YYC, arrival: GRU, day: 33";

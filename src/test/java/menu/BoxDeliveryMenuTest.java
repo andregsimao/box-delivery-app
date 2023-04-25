@@ -1,6 +1,7 @@
 package menu;
 
 import com.box.delivery.app.manager.FlightEnquirer;
+import com.box.delivery.app.manager.ItineraryGenerator;
 import com.box.delivery.app.menu.BoxDeliveryMenu;
 import com.box.delivery.app.menu.CommandOption;
 import com.box.delivery.app.menu.FlightCreatorMenu;
@@ -20,6 +21,7 @@ public class BoxDeliveryMenuTest {
     BoxDeliveryMenu boxDeliveryMenu;
     Scanner scanner;
     FlightCreatorMenu flightCreatorMenu;
+    ItineraryGenerator itineraryGenerator;
     FlightEnquirer flightEnquirer;
     ByteArrayOutputStream bo;
 
@@ -27,6 +29,7 @@ public class BoxDeliveryMenuTest {
     public void setup() {
         flightCreatorMenu = mock(FlightCreatorMenu.class);
         flightEnquirer = mock(FlightEnquirer.class);
+        itineraryGenerator = mock(ItineraryGenerator.class);
 
         bo = new ByteArrayOutputStream();
         System.setOut(new PrintStream(bo));
@@ -71,6 +74,7 @@ public class BoxDeliveryMenuTest {
 
         verify(flightCreatorMenu, times(1)).run();
         verify(flightEnquirer, times(0)).printAllFlights();
+        verify(itineraryGenerator, times(0)).generateItinerary(any());
     }
 
     @Test
@@ -82,6 +86,21 @@ public class BoxDeliveryMenuTest {
         boxDeliveryMenu.run();
 
         verify(flightEnquirer, times(1)).printAllFlights();
+        verify(flightCreatorMenu, times(0)).run();
+        verify(itineraryGenerator, times(0)).generateItinerary(any());
+    }
+
+    @Test
+    public void Should_GenerateItineraries_When_Requested() {
+        String exitInput = Integer.toString(CommandOption.EXIT.getValue());
+        String option = Integer.toString(CommandOption.GENERATE_ITINERARIES.getValue());
+        setInputScanner(option + " " + exitInput);
+
+        boxDeliveryMenu.run();
+
+        verify(itineraryGenerator, times(1))
+            .generateItinerary("src/main/resources/coding-assigment-orders.json");
+        verify(flightEnquirer, times(0)).printAllFlights();
         verify(flightCreatorMenu, times(0)).run();
     }
 
@@ -110,12 +129,15 @@ public class BoxDeliveryMenuTest {
 
         try (MockedStatic<FlightCreatorMenu> mockedFlightCreatorMenu = Mockito.mockStatic(FlightCreatorMenu.class)) {
             try (MockedStatic<FlightEnquirer> mockedFlightEnquirer = Mockito.mockStatic(FlightEnquirer.class)) {
-                mockedFlightEnquirer.when(FlightEnquirer::getInstance).thenReturn(flightEnquirer);
-                mockedFlightCreatorMenu
-                    .when(() -> FlightCreatorMenu.getInstance(any()))
-                    .thenReturn(flightCreatorMenu);
+                try (MockedStatic<ItineraryGenerator> mockedItineraryGenerator = Mockito.mockStatic(ItineraryGenerator.class)) {
+                    mockedFlightEnquirer.when(FlightEnquirer::getInstance).thenReturn(flightEnquirer);
+                    mockedItineraryGenerator.when(ItineraryGenerator::getInstance).thenReturn(itineraryGenerator);
+                    mockedFlightCreatorMenu
+                            .when(() -> FlightCreatorMenu.getInstance(any()))
+                            .thenReturn(flightCreatorMenu);
 
-                boxDeliveryMenu = new BoxDeliveryMenu();
+                    boxDeliveryMenu = new BoxDeliveryMenu();
+                }
             }
         }
     }
