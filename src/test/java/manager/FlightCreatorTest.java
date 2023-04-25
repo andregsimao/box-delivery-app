@@ -68,7 +68,7 @@ public class FlightCreatorTest {
         assertEquals(departureCode, mergedAirports.getAllValues().get(0).getCode());
         assertEquals(arrivalCode, mergedAirports.getAllValues().get(1).getCode());
 
-        verify(flightRepository, times(1)).persist(flight);
+        verify(flightRepository, times(1)).merge(flight);
     }
 
     @Test
